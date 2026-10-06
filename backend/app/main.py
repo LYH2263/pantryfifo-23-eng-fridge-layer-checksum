@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from app import seed
+from app.audit import run_audit
 from app.db import connect
 from app.engines.fefo import consume_fefo, expire_lots
 
@@ -102,3 +103,16 @@ def expire_sweep():
 @app.get("/api/settings")
 def settings():
     c = connect(); rows = {r["key"]: r["value"] for r in c.execute("SELECT * FROM settings")}; c.close(); return rows
+
+# ---------- 三视图对账（全层 / 层页 / 顶条） ----------
+
+@app.get("/api/audit")
+def audit():
+    """默认只报告：绝不改 lots。连跑两次结果一致、零写入。"""
+    return run_audit(reproject=False)
+
+@app.post("/api/audit/reproject")
+def audit_reproject():
+    """显式开关：按 consumptions 流水重投影，精准回写分叉批。
+    不 DELETE 行、不清零无关批、不改业务路由里的写库方式。"""
+    return run_audit(reproject=True)
