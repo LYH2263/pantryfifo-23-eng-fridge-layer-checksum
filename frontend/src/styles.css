@@ -29,3 +29,18 @@ h1,h2 { font-family: "Space Grotesk", sans-serif; }
 button { background: var(--teal); color: #fff; border: 0; border-radius: 10px; padding: 8px 12px; font: inherit; cursor: pointer; }
 input, select { padding: 8px; border-radius: 8px; border: 1px solid var(--line); font: inherit; margin: 4px 0 10px; width: 100%; max-width: 320px; }
 .muted { color: #5a7a7e; font-size: 13px; }
+.recon-controls { display: flex; align-items: center; gap: 14px; margin: 12px 0; flex-wrap: wrap; }
+.recon-controls .switch { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.recon-controls .switch input { width: auto; margin: 0; }
+.recon-status { padding: 10px 14px; border-radius: 10px; font-weight: 600; margin: 10px 0; }
+.recon-status.ok { background: #e2f3e4; color: #1d6b32; border: 1px solid #b6dcc0; }
+.recon-status.bad { background: #fde6dc; color: var(--alert); border: 1px solid #f0c9a8; }
+.recon-status .danger { color: #8c1f00; }
+.recon-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; }
+.recon-table th, .recon-table td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #eef4f4; font-size: 14px; }
+.recon-table th { background: #eef6f6; color: var(--teal); }
+.ok-text { color: #1d6b32; font-weight: 600; }
+.bad-text { color: var(--alert); font-weight: 700; }
+.divergence { background: #fff; border: 1px solid #f0c9a8; border-left: 4px solid var(--alert); border-radius: 10px; padding: 10px 12px; margin: 8px 0; }
+.divergence-head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
+.badge { background: #fde6dc; color: var(--alert); border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 700; }

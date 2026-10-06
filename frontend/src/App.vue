@@ -11,6 +11,7 @@
         <router-link to="/inbound">入库</router-link>
         <router-link to="/consume">消费</router-link>
         <router-link to="/settings">设置</router-link>
+        <router-link to="/reconcile">对账</router-link>
       </nav>
       <router-view />
     </div>

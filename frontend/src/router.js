@@ -4,6 +4,7 @@ import Layer from './pages/Layer.vue'
 import Inbound from './pages/Inbound.vue'
 import Consume from './pages/Consume.vue'
 import Settings from './pages/Settings.vue'
+import Reconcile from './pages/Reconcile.vue'
 export default createRouter({
   history: createWebHistory(),
   routes: [
@@ -12,5 +13,6 @@ export default createRouter({
     { path: '/inbound', component: Inbound },
     { path: '/consume', component: Consume },
     { path: '/settings', component: Settings },
+    { path: '/reconcile', component: Reconcile },
   ],
 })

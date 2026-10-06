@@ -1,4 +1,5 @@
 from app.db import connect
+from app.engines.reconcile import PROJECTION_DDL, ensure_schema, rebuild_projection
 
 def init_db():
     c = connect()
@@ -10,7 +11,7 @@ def init_db():
     );
     CREATE TABLE IF NOT EXISTS consumptions(id INTEGER PRIMARY KEY AUTOINCREMENT, note TEXT, result_json TEXT, created_at TEXT);
     CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY, value TEXT);
-    """)
+    """ + PROJECTION_DDL)
     if c.execute("SELECT COUNT(*) c FROM items").fetchone()["c"] == 0:
         c.executemany("INSERT INTO items(name,layer,unit) VALUES (?,?,?)", [
             ("牛奶", "upper", "盒"), ("鸡蛋", "mid", "个"), ("冻饺", "lower", "袋"),
@@ -26,5 +27,14 @@ def init_db():
             ],
         )
         c.execute("INSERT INTO settings(key,value) VALUES ('warn_days','3')")
+        # 与业务种子同事务建立初始投影
+        ensure_schema(c)
+        rebuild_projection(c)
         c.commit()
+    else:
+        # 既有库升级：若投影缺失/为空则补建一次
+        ensure_schema(c)
+        if c.execute("SELECT COUNT(*) c FROM shelf_projection").fetchone()["c"] == 0:
+            rebuild_projection(c)
+            c.commit()
     c.close()
